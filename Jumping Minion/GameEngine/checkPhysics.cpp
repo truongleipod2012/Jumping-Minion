@@ -54,19 +54,18 @@ void PhysicsForPlayer::update(Object& obj, World& world){
     }
 }
 
-/*void PhysicsForPlatform::checkDistances(Object* platform, std::vector<Object*> &platforms){
-    Minimum distance between platforms
+void PhysicsForPlatform::checkDistances(Object* platform, std::vector<Object*> &platforms){
+    //cach do cao toi thieu
     for(unsigned int i = 1; i < platforms.size(); i++) {
         if(platform != platforms[i]) {
-            while(abs(platform -> y - platforms[i] -> y) <= 50) {
-                    platform -> y--;
+            while(platform -> y - platforms[i] -> y <= 50) {
+                platform -> y --;
             }
         }
     }
-}*/
+}
 
 void PhysicsForPlatform::update(Object& obj, World& world){
-    // checkDistances(&obj, world.get_platforms());
 
     Object* player = world.get_player();
     
@@ -77,7 +76,6 @@ void PhysicsForPlatform::update(Object& obj, World& world){
         obj.yspeed = -player -> yspeed;
         
         checkSpeed = -player -> yspeed;
-        std::cout << checkSpeed << std::endl;
         
         
     }

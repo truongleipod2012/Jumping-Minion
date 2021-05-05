@@ -68,19 +68,19 @@ bool Game::init() {
     quitRect2.w /= 2;
     quitRect2.h /= 2;
     
-    settingButton = IMG_LoadTexture(renderer, "Assets/settingButton_untouch.png");
-    SDL_QueryTexture(settingButton, NULL, NULL, &settingRect1.w, &settingRect1.h);
-    settingRect1.x = 270;
-    settingRect1.y = 520;
-    settingRect1.w /= 2;
-    settingRect1.h /= 2;
+    bigQuitButton = IMG_LoadTexture(renderer, "Assets/bigQuitButton.png");
+    SDL_QueryTexture(bigQuitButton, NULL, NULL, &bigQuitRect1.w, &bigQuitRect1.h);
+    bigQuitRect1.x = 125;
+    bigQuitRect1.y = 517;
+    bigQuitRect1.w /= 2;
+    bigQuitRect1.h /= 2;
     
-    settingButton_touched = IMG_LoadTexture(renderer, "Assets/settingButton_touched.png");
-    SDL_QueryTexture(settingButton_touched, NULL, NULL, &settingRect2.w, &settingRect2.h);
-    settingRect2.x = 270;
-    settingRect2.y = 520;
-    settingRect2.w /= 2;
-    settingRect2.h /= 2;
+    bigQuitButton_touched = IMG_LoadTexture(renderer, "Assets/bigQuitButton_touched.png");
+    SDL_QueryTexture(bigQuitButton_touched, NULL, NULL, &bigQuitRect2.w, &bigQuitRect2.h);
+    bigQuitRect2.x = 125;
+    bigQuitRect2.y = 517;
+    bigQuitRect2.w /= 2;
+    bigQuitRect2.h /= 2;
     
     //game over & buttons
     gameOverMenu = IMG_LoadTexture(renderer, "Assets/gameOverMenu.png");
@@ -238,8 +238,11 @@ void Game::render(double interp) {
     SDL_SetRenderDrawColor(renderer, 200, 200, 200, 200);
     SDL_RenderFillRect(renderer, &rect);
     
-    //render font
+    /*render font
+    score += PhysicsForPlatform().checkSpeed;
     SDL_RenderCopy( renderer, textTexture, NULL, &textRect);
+    std::cout <<PhysicsForPlatform().checkSpeed << std::endl;
+     */
     
     
 
@@ -314,7 +317,6 @@ void Game::loop() {
 
                 bool insidePlay = true;
                 bool insideExit = true;
-                bool insideSetting = true;
                 
                 if (x < playRect1.x || x > playRect1.x + playRect1.w || y < playRect1.y || y > playRect1.y + playRect1.h) {
                     insidePlay = false;
@@ -330,27 +332,18 @@ void Game::loop() {
                     }
                 }
                 
-                    if (x < settingRect1.x || x > settingRect1.x + settingRect1.w || y < settingRect1.y || y > settingRect1.y + settingRect1.h) {
-                        insideSetting = false;
+                if (x < bigQuitRect1.x || x > bigQuitRect1.x + bigQuitRect1.w || y < bigQuitRect1.y || y > bigQuitRect1.y + bigQuitRect1.h) {
+                    insideExit = false;
+                }
+                if (!insideExit) {
+                    SDL_RenderCopy(renderer, bigQuitButton, NULL, &bigQuitRect1);
+                } else {
+                    SDL_RenderCopy(renderer, bigQuitButton_touched, NULL, &bigQuitRect2);
+                    if (event.type == SDL_MOUSEBUTTONDOWN){
+                        done = true;
                     }
-                
-                    if (!insideSetting) {
-                        SDL_RenderCopy(renderer, settingButton, NULL, &settingRect1);
-                    } else {
-                        SDL_RenderCopy(renderer, settingButton_touched, NULL, &settingRect2);
-                    }
-                
-                    if (x < quitRect1.x || x > quitRect1.x + quitRect1.w || y < quitRect1.y || y > quitRect1.y + quitRect1.h) {
-                        insideExit = false;
-                    }
-                    if (!insideExit) {
-                        SDL_RenderCopy(renderer, quitButton, NULL, &quitRect1);
-                    } else {
-                        SDL_RenderCopy(renderer, quitButton_touched, NULL, &quitRect2);
-                        if (event.type == SDL_MOUSEBUTTONDOWN){
-                            done = true;
-                        }
-                    }
+                }
+
                     SDL_RenderPresent(renderer);
                 }
             }
@@ -368,10 +361,6 @@ void Game::loop() {
                 Mix_PlayMusic(backSong, -1);
             }
             
-            score = 0;
-            //std::cout <<PhysicsForPlatform().checkSpeed << ' ';
-            score += 1;
-            //std::cout << score <<std:: endl;
             
             
             
@@ -381,7 +370,7 @@ void Game::loop() {
             if( mario -> y + mario -> h >= SCREEN_HEIGHT ) {
                 break;
             }
-            render(0); 
+            render(0);
             
             SDL_Delay(FPS_TO_MS(FPS));
         }
@@ -410,5 +399,3 @@ void Game::exit() {
 
     SDL_Quit();
 }
-
-

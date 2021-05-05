@@ -22,6 +22,7 @@ public:
     int score = 0;
     
     
+    
 
 private:
     
@@ -34,6 +35,12 @@ private:
     
     SDL_Texture* playButton_touched;
     SDL_Rect playRect2;
+    
+    SDL_Texture* bigQuitButton;
+    SDL_Rect bigQuitRect1;
+    
+    SDL_Texture* bigQuitButton_touched;
+    SDL_Rect bigQuitRect2;
 
     SDL_Texture* quitButton;
     SDL_Rect quitRect1;
