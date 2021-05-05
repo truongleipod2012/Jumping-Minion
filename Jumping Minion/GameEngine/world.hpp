@@ -23,9 +23,16 @@ public:
 
     void change_player(Object* new_player) {this -> player = new_player;}
 
-    std::vector<Object*> &get_platforms() { return this -> platforms;}
+    std::vector<Object*> &get_platforms()
+    {
+        return this -> platforms;
+    }
 
-    void add_platform(Object* new_platform) {platforms.push_back(new_platform);}
+    void add_platform(Object* new_platform)
+    {
+        platforms.push_back(new_platform);
+        
+    }
 
     void update();
 

@@ -7,7 +7,6 @@
 #include "Objects.hpp"
 #include "globals.hpp"
 #include "world.hpp"
-#include "button.h"
 
 #include "checkPhysics.hpp"
 #include "userInput.hpp"
@@ -23,6 +22,12 @@ bool Game::init() {
     } else {
         window = SDL_CreateWindow("Jumping Mario", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
         renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    }
+    
+    if( TTF_Init() == -1 )
+    {
+        printf( "SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError() );
+        
     }
     
     srand(time(0));
@@ -118,13 +123,22 @@ bool Game::init() {
     
     //font
     gFont = TTF_OpenFont( "Assets/Minecraft.ttf", 25 );
+    if (gFont != NULL) {
+       std::cout << "success" << '\n';
+    }
+    else {
+        std::cout << "failed" << '\n';
+        std::cout << TTF_GetError() << '\n';
+    }
     textColor = {0, 0, 0, 0};
     std::string yourScore = "Score: " + std::to_string(score);
     textSurface = TTF_RenderText_Solid( gFont, yourScore.c_str(), textColor );
     textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
-    SDL_QueryTexture(textTexture, NULL, NULL, &textRect.w, &textRect.h);
+    //SDL_QueryTexture(textTexture, NULL, NULL, &textRect.w, &textRect.h);
     textRect.x = 50;
     textRect.y = 30;
+    textRect.w = textSurface -> w;
+    textRect.h = textSurface -> h;
     
 
     //tao ra 1 game world
@@ -207,6 +221,7 @@ void Game::update() {
 
 void Game::render(double interp) {
     
+    
     SDL_RenderClear(renderer);
     
     //render background
@@ -223,6 +238,7 @@ void Game::render(double interp) {
     SDL_SetRenderDrawColor(renderer, 200, 200, 200, 200);
     SDL_RenderFillRect(renderer, &rect);
     
+    //render font
     SDL_RenderCopy( renderer, textTexture, NULL, &textRect);
     
     
@@ -352,8 +368,10 @@ void Game::loop() {
                 Mix_PlayMusic(backSong, -1);
             }
             
-            score += PhysicsForPlatform().checkSpeed;
-            std::cout << score <<std:: endl;
+            score = 0;
+            //std::cout <<PhysicsForPlatform().checkSpeed << ' ';
+            score += 1;
+            //std::cout << score <<std:: endl;
             
             
             

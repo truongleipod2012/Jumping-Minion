@@ -70,13 +70,14 @@ void PhysicsForPlatform::update(Object& obj, World& world){
 
     Object* player = world.get_player();
     
+    
 
     //scroll thanh platform
     if (scroll && player -> yspeed < 0) {
         obj.yspeed = -player -> yspeed;
         
         checkSpeed = -player -> yspeed;
-        //std::cout << checkSpeed << std::endl;
+        std::cout << checkSpeed << std::endl;
         
         
     }

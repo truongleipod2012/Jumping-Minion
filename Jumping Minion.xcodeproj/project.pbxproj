@@ -59,7 +59,6 @@
 		5875B04C264292C400CDDEA2 /* SDL2_ttf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_ttf.framework; path = ../../../../../Library/Frameworks/SDL2_ttf.framework; sourceTree = "<group>"; };
 		5885943226413307002F3D13 /* libSDL2_mixer-2.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libSDL2_mixer-2.0.0.dylib"; path = "../../../../../usr/local/Cellar/sdl2_mixer/2.0.4_1/lib/libSDL2_mixer-2.0.0.dylib"; sourceTree = "<group>"; };
 		588594342641331E002F3D13 /* SDL2_mixer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_mixer.framework; path = ../../../../../Library/Frameworks/SDL2_mixer.framework; sourceTree = "<group>"; };
-		5885943826414383002F3D13 /* button.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = button.h; sourceTree = "<group>"; };
 		58B99AEA262A0D4F00138D8B /* engine.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = engine.cpp; sourceTree = "<group>"; };
 		58B99AEB262A0D4F00138D8B /* engine.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = engine.hpp; sourceTree = "<group>"; };
 		58B99AEE262A134200138D8B /* Objects.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Objects.cpp; sourceTree = "<group>"; };
@@ -98,7 +97,6 @@
 			children = (
 				58B99AEA262A0D4F00138D8B /* engine.cpp */,
 				58B99AEB262A0D4F00138D8B /* engine.hpp */,
-				5885943826414383002F3D13 /* button.h */,
 				58B99AEE262A134200138D8B /* Objects.cpp */,
 				58B99AEF262A134200138D8B /* Objects.hpp */,
 				58F1EBFF262B3E3F00B49A73 /* Texture.cpp */,
