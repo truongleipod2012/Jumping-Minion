@@ -74,10 +74,6 @@ void PhysicsForPlatform::update(Object& obj, World& world){
     //scroll thanh platform
     if (scroll && player -> yspeed < 0) {
         obj.yspeed = -player -> yspeed;
-        
-        checkSpeed = -player -> yspeed;
-        
-        
     }
 
     if(obj.y + obj.yspeed > SCREEN_HEIGHT) {

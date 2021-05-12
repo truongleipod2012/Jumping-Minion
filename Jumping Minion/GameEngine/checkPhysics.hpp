@@ -30,8 +30,6 @@ public:
 class PhysicsForPlatform : public checkPhysics {
     void checkDistances(Object* platform, std::vector<Object*> &platforms);
 public:
-    int checkSpeed;
-    
     virtual void update(Object& obj, World& world);
 };
 

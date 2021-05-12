@@ -18,7 +18,7 @@ public:
     bool init();
     void loop();
     
-    int platformCount = 15;
+    
     int score = 0;
     
     

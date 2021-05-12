@@ -122,7 +122,7 @@ bool Game::init() {
     dieEffect = Mix_LoadWAV("Assets/marioDie.wav");
     
     //font
-    gFont = TTF_OpenFont( "Assets/Minecraft.ttf", 25 );
+    gFont = TTF_OpenFont( "Assets/Minecraft.ttf", 32 );
     if (gFont != NULL) {
        std::cout << "success" << '\n';
     }
@@ -130,59 +130,10 @@ bool Game::init() {
         std::cout << "failed" << '\n';
         std::cout << TTF_GetError() << '\n';
     }
-    textColor = {0, 0, 0, 0};
-    std::string yourScore = "Score: " + std::to_string(score);
-    textSurface = TTF_RenderText_Solid( gFont, yourScore.c_str(), textColor );
-    textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
-    //SDL_QueryTexture(textTexture, NULL, NULL, &textRect.w, &textRect.h);
-    textRect.x = 50;
-    textRect.y = 30;
-    textRect.w = textSurface -> w;
-    textRect.h = textSurface -> h;
+    
     
 
-    //tao ra 1 game world
-    World* game_world = new World();
-    this -> world = game_world;
-
-    platformCount = 15;
-
-    // xu ly platform
     
-    for(unsigned int i = 0; i < platformCount; i++){
-        
-        
-      
-        Object* plat = new Object(new GeneralGraphicsComponent(platform, renderer), new inputForPlatform(), new PhysicsForPlatform());
-          
-        plat -> w = 100;
-        plat -> h = 25;
-          
-        short x;
-          
-        if (i == 0) x = SCREEN_WIDTH / 2 - plat -> w / 2;
-        x = rand() % SCREEN_WIDTH - plat -> w;
-
-        short y = SCREEN_HEIGHT - ( i * 100);
-        plat -> x = x;
-        plat -> y = y;
-
-        world -> add_platform(plat);
-        
-    }
-    
-    // xu ly player
-    Object* mario = new Object(new GeneralGraphicsComponent(player, renderer), new inputForMario(&moveright, &moveleft), new PhysicsForPlayer());
-
-    mario -> w = 40;
-    mario -> h = 50;
-
-    mario -> y = SCREEN_HEIGHT - 100;
-    mario -> x = SCREEN_WIDTH / 2;
-
-    mario -> yspeed = -22;
-
-    world -> change_player(mario);
     
     return true;
 }
@@ -238,11 +189,23 @@ void Game::render(double interp) {
     SDL_SetRenderDrawColor(renderer, 200, 200, 200, 200);
     SDL_RenderFillRect(renderer, &rect);
     
-    /*render font
-    score += PhysicsForPlatform().checkSpeed;
+    if (scroll) {
+        score = score + 1;
+    }
+    
+    textColor = {0, 0, 0, 0};
+    std::string yourScore = "Score: " + std::to_string(score);
+    textSurface = TTF_RenderText_Solid( gFont, yourScore.c_str(), textColor );
+    textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+    textRect.x = 50;
+    textRect.y = 27;
+    textRect.w = textSurface -> w;
+    textRect.h = textSurface -> h;
+    
+    //render font
     SDL_RenderCopy( renderer, textTexture, NULL, &textRect);
-    std::cout <<PhysicsForPlatform().checkSpeed << std::endl;
-     */
+    //std::cout << PhysicsForPlatform().checkSpeed << std::endl;
+     
     
     
 
@@ -255,6 +218,17 @@ bool Game::askContinue() {
         SDL_PollEvent(&event);
         SDL_RenderCopy(renderer, background, NULL, NULL);
         SDL_RenderCopy(renderer, gameOverMenu, NULL, &gameOverRect);
+        
+        //load final score
+        textColor = {0, 0, 0, 0};
+        std::string yourScore = "Your Score: " + std::to_string(score);
+        textSurface = TTF_RenderText_Solid( gFont, yourScore.c_str(), textColor );
+        textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+        textRect.x = 140;
+        textRect.y = 428;
+        textRect.w = textSurface -> w;
+        textRect.h = textSurface -> h;
+        SDL_RenderCopy( renderer, textTexture, NULL, &textRect);
         
         
             int x, y;
@@ -353,15 +327,55 @@ void Game::loop() {
     do {
         
         Mix_ResumeMusic();
+        
         init();
-        while (!done) {
+        
+        int platformCount = 10;
+        
+        //tao ra 1 game world
+        World* game_world = new World();
+        this -> world = game_world;
 
+        // xu ly platform
+        for(unsigned int i = 0; i < platformCount; i++){
+            
+            Object* plat = new Object(new GeneralGraphicsComponent(platform, renderer), new inputForPlatform(), new PhysicsForPlatform());
+              
+            plat -> w = 100;
+            plat -> h = 25;
+              
+            short x;
+              
+            if (i == 0) x = SCREEN_WIDTH / 2 - plat -> w / 2;
+            x = rand() % SCREEN_WIDTH - plat -> w;
+
+            short y = SCREEN_HEIGHT - ( i * 100);
+            plat -> x = x;
+            plat -> y = y;
+
+            world -> add_platform(plat);
+            
+        }
+        
+        // xu ly player
+        Object* mario = new Object(new GeneralGraphicsComponent(player, renderer), new inputForMario(&moveright, &moveleft), new PhysicsForPlayer());
+
+        mario -> w = 40;
+        mario -> h = 50;
+
+        mario -> y = SCREEN_HEIGHT - 100;
+        mario -> x = SCREEN_WIDTH / 2;
+
+        mario -> yspeed = -22;
+
+        world -> change_player(mario);
+        
+        
+        while (!done) {
             
             if (!Mix_PlayingMusic()) {
                 Mix_PlayMusic(backSong, -1);
             }
-            
-            
             
             
             handleInput();
@@ -373,14 +387,18 @@ void Game::loop() {
             render(0);
             
             SDL_Delay(FPS_TO_MS(FPS));
+            
         }
+        
         Mix_PauseMusic();
         Mix_PlayChannel(-1, dieEffect, 0);
         playAgain = askContinue();
         if (playAgain) {
             done = false;
+            score = 0;
         }
-    }while (playAgain);
+        
+    } while (playAgain);
     
     exit();
 }
