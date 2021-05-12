@@ -10,3 +10,7 @@ Cửa sổ game over có 2 nút: Chơi lại hoặc quit.
 
 Con học và tham khảo code phần chia class trong game từ trang YouTube tên là Let's Make Game: https://www.youtube.com/channel/UCAM9ZPgEIdeHAsmG50wqL1g
 Thuật toán nhảy áp dụng từ toán sử dụng tốc độ tăng lên và trọng lực để kéo Mario rơi xuống và con cũng tham khảo trên mạng để viết code hàm nhảy.
+
+Hình background của game con tự vẽ và thiết kế bằng trang web Canva: https://www.canva.com/
+Hình ảnh Mario và hình Platform con lấy trên mạng.
+Tất cả các nút bấm và menu chính và menu game over con tự vẽ hoàn toàn trên PowerPoint.
